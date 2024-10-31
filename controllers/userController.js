@@ -12,7 +12,7 @@ const addUser = async (req, res) => {
         const identityExists = await prisma.profile.findUnique({ where: { identity_number,} });
 
         if (emailExists || identityExists) {
-            throw new Error('404|email atau identitas sudah dipakai user lain');
+            throw new Error('400|email atau identitas sudah dipakai user lain');
         }
 
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT_ROUNDS));

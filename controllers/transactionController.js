@@ -14,7 +14,7 @@ const createTransaction = async (req, res) => {
         ]);
 
         if (sourceAccountIdInt === destinationAccountIdInt) {
-            throw new Error('422|Source and destination accounts must be different.');
+            throw new Error('422|source dan destination akun harus berbeda');
         }
         if (!sourceAccount || !destinationAccount) {
             throw new Error('404|akun source atau destination tidak ada');
@@ -49,7 +49,7 @@ const createTransaction = async (req, res) => {
 
         res.status(201).json({
             status: 201,
-            message: 'Transaksi berhasil.',
+            message: 'transaksi berhasil',
             transaction,
         });
     } catch (error) {
@@ -67,7 +67,7 @@ const getTransactions = async (req, res) => {
         const transactions = await prisma.transaction.findMany();
         res.status(200).json({ 
             status: 200, 
-            message: 'Berhasil mengambil data transaksi', 
+            message: 'berhasil mengambil data transaksi', 
             data: transactions 
         });
 };
@@ -101,7 +101,7 @@ const getTransactionById = async (req, res) => {
             // Mengembalikan respon dengan format yang sesuai
             res.json({
                 status: 200,
-                message: "Berhasil menampilkan detail transaksi",
+                message: "berhasil menampilkan detail transaksi",
                 data: {
                     id: transaction.id,
                     amount: transaction.amount,

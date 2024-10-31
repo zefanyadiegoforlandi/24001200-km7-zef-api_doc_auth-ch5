@@ -16,10 +16,12 @@ describe('User Controller Integration Tests', () => {
                 email: 'testuser@example.com',
                 password: 'password123',
                 identity_type: 'KTP',
-                identity_number: '123456',
+                identity_number: '123456997',
                 address: 'Jl. Test No. 1'
+                
             });
-        userId = userResponse.body.user.id;
+            userId = userResponse.body.user.id;
+
     });
 
     test('ini testing error handle 404 => tidak ada user', (done) => {
@@ -80,7 +82,7 @@ describe('User Controller Integration Tests', () => {
             .then(response => {
                 expect(response.status).toBe(201);
                 expect(response.body).toHaveProperty('status', 201);
-                expect(response.body).toHaveProperty('message', 'Akun berhasil ditambahkan');
+                expect(response.body).toHaveProperty('message', 'akun berhasil ditambahkan');
                 accountId = response.body.data.id;
                 done();
             })

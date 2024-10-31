@@ -1,25 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const {
-    registerPage,
-    loginPage,
-    dashboardPage,
     register,
     login,
-    restrict,
 } = require('../controllers/authController');
+const restrictJwt = require('../middlewares/restrictJwt')
 
-router.get('/register', registerPage);
 router.post('/register', register);
-
-router.get('/login', loginPage);
+router.get('/authenticate', restrictJwt, (req, res) => {
+    res.json({ message: 'selamat anda authenticate!', user: req.user });
+});
 router.post('/login', login);
 
-router.get('/dashboard', restrict, dashboardPage);
-
-router.get('/logout', (req, res) => {
-    res.clearCookie('token'); 
-    res.redirect('/auth/login'); 
-});
 
 module.exports = router;

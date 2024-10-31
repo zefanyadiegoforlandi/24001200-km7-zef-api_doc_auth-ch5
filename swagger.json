@@ -1,250 +1,68 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "title": "User API",
     "version": "1.0.0",
-    "description": "API untuk manajemen pengguna dan transaksi"
+    "description": "API ini menyediakan serangkaian endpoint untuk mengelola users, accounts dan transactions dalam sistem. Fungsionalitas yang ditawarkan meliputi post,get,put,dan delete. API ini dirancang untuk mendukung aplikasi berbasis web dan seluler, memastikan pengalaman pengguna yang aman dan efisien.  \"berjalan di localhost:3000\""
   },
-  "host": "localhost:3000",
-  "basePath": "/api/v1",
-  "schemes": [
-    "http"
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Server Localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Endpoint untuk authenticate pengguna"
+    },
+    {
+      "name": "Users",
+      "description": "Endpoint untuk manajemen pengguna"
+    },
+    {
+      "name": "Accounts",
+      "description": "Endpoint untuk manajemen akun"
+    },
+    {
+      "name": "Transactions",
+      "description": "Endpoint untuk manajemen transaksi"
+    }
   ],
   "paths": {
-    "/users": {
+    "/auth/register": {
       "post": {
-        "summary": "Tambah User",
-        "operationId": "addUser",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Lewis Hamilton"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "lewis7Mercedes@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "lewis7champions"
-                },
-                "identity_type": {
-                  "type": "string",
-                  "example": "KTP"
-                },
-                "identity_number": {
-                  "type": "string",
-                  "example": "777777777"
-                },
-                "address": {
-                  "type": "string",
-                  "example": "Jl. Manchester No. 14"
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "password",
-                "identity_type",
-                "identity_number",
-                "address"
-              ]
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Mendaftarkan pengguna baru",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewAuthUser"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
-            "description": "User berhasil ditambahkan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 201
-                },
-                "message": {
-                  "type": "string",
-                  "example": "User berhasil ditambahkan"
-                },
-                "user": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Lewis Hamilton"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "lewis7Mercedes@gmail.com"
-                    },
-                    "identity_type": {
-                      "type": "string",
-                      "example": "KTP"
-                    },
-                    "identity_number": {
-                      "type": "string",
-                      "example": "777777777"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "Jl. Manchester No. 14"
-                    }
-                  }
+            "description": "Pengguna berhasil didaftarkan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterAuthResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Email atau identitas sudah dipakai user lain",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 400
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Email atau identitas sudah dipakai user lain"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal membuat user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal membuat user"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "Dapatkan Daftar User",
-        "operationId": "getUsers",
-        "responses": {
-          "200": {
-            "description": "Berhasil menampilkan users",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Berhasil menampilkan users"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer",
-                        "example": 1
-                      },
-                      "name": {
-                        "type": "string",
-                        "example": "Lewis Hamilton"
-                      },
-                      "email": {
-                        "type": "string",
-                        "example": "lewis7Mercedes@gmail.com"
-                      },
-                      "identity_type": {
-                        "type": "string",
-                        "example": "KTP"
-                      },
-                      "identity_number": {
-                        "type": "string",
-                        "example": "777777777"
-                      },
-                      "address": {
-                        "type": "string",
-                        "example": "Jl. Manchester No. 14"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "id": 1,
-                      "name": "Lewis Hamilton",
-                      "email": "lewis7Mercedes@gmail.com",
-                      "identity_type": "KTP",
-                      "identity_number": "777777777",
-                      "address": "Jl. Manchester No. 14"
-                    },
-                    {
-                      "id": 2,
-                      "name": "Max Verstappen",
-                      "email": "max@redbull.com",
-                      "identity_type": "SIM",
-                      "identity_number": "888888888",
-                      "address": "Jl. Red Bull No. 10"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Tidak ada user yang ditemukan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 204
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Tidak ada user yang ditemukan"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal menampilkan users",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal menampilkan users"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
+            "description": "Email atau identitas sudah dipakai",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorRegisterResponse400"
                 }
               }
             }
@@ -252,101 +70,177 @@
         }
       }
     },
-    "/users/{userId}": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login pengguna",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginAuthRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login sukses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginAuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email atau password salah",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorLoginResponse400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/authenticate": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Autentikasi Pengguna",
+        "description": "Endpoint ini digunakan untuk mengautentikasi pengguna menggunakan JWT.",
+        "security": [
+          {
+            "AuthHeader": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pengguna berhasil terautentikasi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Tidak terautentikasi.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Tambah User",
+        "operationId": "addUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User berhasil ditambahkan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email atau identitas sudah dipakai user lain",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUser400"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Dapatkan Daftar User",
+        "operationId": "getUsers",
+        "responses": {
+          "200": {
+            "description": "Berhasil menampilkan users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}": {
       "parameters": [
         {
           "name": "userId",
           "in": "path",
           "required": true,
-          "type": "integer",
-          "description": "ID user"
+          "description": "ID",
+          "schema": {
+            "type": "integer"
+          }
         }
       ],
       "get": {
+        "tags": [
+          "Users"
+        ],
         "summary": "Dapatkan Detail User",
         "operationId": "getUserById",
         "responses": {
           "200": {
             "description": "Berhasil menampilkan detail user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Berhasil menampilkan detail user"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Lewis Hamilton"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "lewis7Mercedes@gmail.com"
-                    },
-                    "identity_type": {
-                      "type": "string",
-                      "example": "KTP"
-                    },
-                    "identity_number": {
-                      "type": "string",
-                      "example": "777777777"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "Jl. Manchester No. 14"
-                    }
-                  }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
                 }
               }
             }
           },
           "404": {
             "description": "Tidak ada user dengan ID tersebut",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Tidak ada user dengan ID tersebut"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal menampilkan detail user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal menampilkan detail user"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUser404"
                 }
               }
             }
@@ -354,146 +248,48 @@
         }
       },
       "put": {
+        "tags": [
+          "Users"
+        ],
         "summary": "Update User",
         "operationId": "updateUser",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Lewis Hamilton"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "lewis7Mercedes@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "lewis7champions"
-                },
-                "identity_type": {
-                  "type": "string",
-                  "example": "KTP"
-                },
-                "identity_number": {
-                  "type": "string",
-                  "example": "777777777"
-                },
-                "address": {
-                  "type": "string",
-                  "example": "Jl. Manchester No. 14"
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "password",
-                "identity_type",
-                "identity_number",
-                "address"
-              ]
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUpdateUser"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "User berhasil diupdate",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "User berhasil diupdate"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Lewis Hamilton"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "lewis7Mercedes@gmail.com"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "lewis7champions"
-                    },
-                    "identity_type": {
-                      "type": "string",
-                      "example": "KTP"
-                    },
-                    "identity_number": {
-                      "type": "string",
-                      "example": "777777777"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "Jl. Manchester No. 14"
-                    }
-                  }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
                 }
               }
             }
           },
           "400": {
             "description": "Email atau identitas sudah dipakai user lain",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 400
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Email atau identitas sudah dipakai user lain"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUser400"
                 }
               }
             }
           },
           "404": {
             "description": "Tidak ada user dengan ID tersebut",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Tidak ada user dengan ID tersebut"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal memperbaharui user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal memperbaharui user"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUser404"
                 }
               }
             }
@@ -501,53 +297,28 @@
         }
       },
       "delete": {
+        "tags": [
+          "Users"
+        ],
         "summary": "Hapus User",
         "operationId": "deleteUser",
         "responses": {
           "200": {
             "description": "User berhasil dihapus",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "User berhasil dihapus"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteUserResponse"
                 }
               }
             }
           },
           "404": {
             "description": "Tidak ada user dengan ID tersebut",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Tidak ada user dengan ID tersebut"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal menghapus user",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal menghapus user"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUser404"
                 }
               }
             }
@@ -555,108 +326,50 @@
         }
       }
     },
-    "/accounts": {
+    "/api/v1/accounts": {
       "post": {
+        "tags": [
+          "Accounts"
+        ],
         "summary": "Tambah Account",
         "operationId": "addAccount",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "integer",
-                  "example": 1
-                },
-                "bank_name": {
-                  "type": "string",
-                  "example": "Bank A"
-                },
-                "bank_account_number": {
-                  "type": "string",
-                  "example": "1234567890"
-                },
-                "balance": {
-                  "type": "number",
-                  "example": 1000000
-                }
-              },
-              "required": [
-                "user_id",
-                "bank_name",
-                "bank_account_number",
-                "balance"
-              ]
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewAccount"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Akun berhasil ditambahkan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 201
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Akun berhasil ditambahkan"
-                },
-                "data": {
-                  "type": "object"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddAccountResponse"
                 }
               }
             }
           },
           "400": {
             "description": "Nomor bank ini sudah dipakai untuk bank yang sama",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 400
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Nomor bank ini sudah dipakai untuk bank yang sama"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorAccount400"
                 }
               }
             }
           },
           "404": {
-            "description": "User id tidak ditemukan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "User id tidak ditemukan"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal menambahkan akun",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal menambahkan akun"
+            "description": "User ID tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUser404"
                 }
               }
             }
@@ -664,67 +377,18 @@
         }
       },
       "get": {
+        "tags": [
+          "Accounts"
+        ],
         "summary": "Dapatkan Daftar Account",
         "operationId": "getAccounts",
         "responses": {
           "200": {
             "description": "Berhasil menampilkan daftar akun",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Berhasil menampilkan daftar akun"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Tidak ada akun yang ditemukan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 204
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Tidak ada akun yang ditemukan"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal menampilkan akun",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal menampilkan akun"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccountsResponse"
                 }
               }
             }
@@ -732,22 +396,1084 @@
         }
       }
     },
-    "/transaction": {
+    "/api/v1/accounts/{accountId}": {
+      "parameters": [
+        {
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "description": "ID",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Dapatkan Detail Account",
+        "operationId": "getAccountById",
+        "responses": {
+          "200": {
+            "description": "Berhasil menampilkan detail akun",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccountResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Akun tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorAccount404"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Update Account",
+        "operationId": "updateAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewAccountPut"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Akun berhasil diupdate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAccountResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Akun tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorAccount404"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Hapus Account",
+        "operationId": "deleteAccount",
+        "responses": {
+          "200": {
+            "description": "Akun berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAccountResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Akun tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorAccount404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transactions": {
       "post": {
+        "tags": [
+          "Transactions"
+        ],
         "summary": "Tambah Transaksi",
         "operationId": "addTransaction",
-        "consumes": [
-          "application/json"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewTransaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaksi berhasil ditambahkan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTransactionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Gagal menambahkan transaksi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorTransaction400"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Akun source atau destination tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorTransactionPost404"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Id source dan id destination akun harus berbeda",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorTransaction422"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Transactions"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Data transaksi yang akan ditambahkan",
-            "required": true,
-            "schema": {
+        "summary": "Dapatkan Daftar Transaksi",
+        "operationId": "getTransactions",
+        "responses": {
+          "200": {
+            "description": "Berhasil menampilkan daftar transaksi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTransactionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transactions/{transactionId}": {
+      "parameters": [
+        {
+          "name": "transactionId",
+          "in": "path",
+          "required": true,
+          "description": "ID",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Dapatkan Detail Transaksi",
+        "operationId": "getTransactionById",
+        "responses": {
+          "200": {
+            "description": "Berhasil menampilkan detail transaksi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTransactionIdResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaksi tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorTransaction404"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AuthHeader": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Gunakan header `Authorization` dengan format `Bearer <token>` untuk autentikasi anda bisa memasukkan token di sini yang sudah di buat pada melalui login.\n"
+      }
+    },
+    "schemas": {
+      "NewAuthUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lewis register"
+          },
+          "email": {
+            "type": "string",
+            "example": "lewisregister@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "lewis7champions"
+          },
+          "identity_type": {
+            "type": "string",
+            "example": "KTP"
+          },
+          "identity_number": {
+            "type": "string",
+            "example": "0999777"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jl. Manchester No. 14"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password",
+          "identity_type",
+          "identity_number",
+          "address"
+        ]
+      },
+      "RegisterAuthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 201
+          },
+          "message": {
+            "type": "string",
+            "example": "user berhasil ditambahkan"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Lewis register"
+              },
+              "email": {
+                "type": "string",
+                "example": "lewisregister@gmail.com"
+              },
+              "password": {
+                "type": "string",
+                "example": "$2b$10$c.54dFCQ0fgP7XZvYlh56OF90EIZlOpYPRmDsXk2zcM89o1NjgZWW"
+              },
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "identity_type": {
+                    "type": "string",
+                    "example": "KTP"
+                  },
+                  "identity_number": {
+                    "type": "string",
+                    "example": "0999777"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Jl. Manchester No. 14"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "LoginAuthRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "lewisregister@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "lewis7champions"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginAuthResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "login sukses"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTExMSwibmFtZSI6Ikxld2lzIHJlZ2lzdGVyIiwiaWF0IjoxNzMwMzY2MTU4fQ.TJcXhio187-TEKVBUkeVKtjKf_NMla_gFE0eaX9_ibY"
+          }
+        }
+      },
+      "ErrorRegisterResponse400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "email atau identitas sudah dipakai user lain"
+          }
+        }
+      },
+      "ErrorLoginResponse400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "email atau password salah"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": "1070"
+          },
+          "name": {
+            "type": "string",
+            "example": "Lewis Hamilton"
+          }
+        },
+        "example": {
+          "id": "1070",
+          "name": "Lewis Hamilton"
+        }
+      },
+      "AuthenticationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "selamat anda authenticate!"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "example": {
+          "message": "selamat anda authenticate!",
+          "user": {
+            "id": 1,
+            "name": "Lewis register",
+            "iat": 1730366158
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "unauthorized"
+          }
+        },
+        "example": {
+          "message": "unauthorized"
+        }
+      },
+      "NewUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lewis user"
+          },
+          "email": {
+            "type": "string",
+            "example": "lewisuser@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "lewis7champions"
+          },
+          "identity_type": {
+            "type": "string",
+            "example": "KTP"
+          },
+          "identity_number": {
+            "type": "string",
+            "example": "0777999"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jl. Manchester No. 14"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password",
+          "identity_type",
+          "identity_number",
+          "address"
+        ]
+      },
+      "NewUpdateUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lewis update user"
+          },
+          "email": {
+            "type": "string",
+            "example": "lewisupdateuser@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "lewis7champions"
+          },
+          "identity_type": {
+            "type": "string",
+            "example": "KTP"
+          },
+          "identity_number": {
+            "type": "string",
+            "example": "0777999"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jl. Manchester No. 14"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password",
+          "identity_type",
+          "identity_number",
+          "address"
+        ]
+      },
+      "AddUserResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 201
+          },
+          "message": {
+            "type": "string",
+            "example": "user berhasil ditambahkan"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 2
+              },
+              "name": {
+                "type": "string",
+                "example": "Lewis user"
+              },
+              "email": {
+                "type": "string",
+                "example": "lewisuser@gmail.com"
+              },
+              "password": {
+                    "type": "string",
+                    "example": "$2b$10$c.54dFCQ0fgP7XZvYlh56OF90EIZlOpYPRmDsXk2zcM89o1NjgZWW"
+              },
+              "profile": {
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "user_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                  "identity_type": {
+                    "type": "string",
+                    "example": "KTP"
+                  },
+                  "identity_number": {
+                    "type": "string",
+                    "example": "0777999"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Jl. Manchester No. 14"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetUsersResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "berhasil menampilkan users"
+          },
+          "data": {
+            "type": "array",
+            "items": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 2
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Lewis user"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "lewisuser@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "$2b$10$c.54dFCQ0fgP7XZvYlh56OF90EIZlOpYPRmDsXk2zcM89o1NjgZWW"
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "berhasil menampilkan detail user"
+          },
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 2
+              },
+              "name": {
+                "type": "string",
+                "example": "Lewis user"
+              },
+              "email": {
+                "type": "string",
+                "example": "lewisuser@gmail.com"
+              },
+              "password": {
+                "type": "string",
+                "example": "$2b$10$c.54dFCQ0fgP7XZvYlh56OF90EIZlOpYPRmDsXk2zcM89o1NjgZWW"
+              },
+              "profile": {
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "user_id": {
+                      "type": "integer",
+                      "example": 1
+                  },
+                  "identity_type": {
+                    "type": "string",
+                    "example": "KTP"
+                  },
+                  "identity_number": {
+                    "type": "string",
+                    "example": "0777999"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Jl. Manchester No. 14"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateUserResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "user berhasil diupdate"
+          },
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Lewis update user"
+              },
+              "email": {
+                "type": "string",
+                "example": "lewisupdateuser@gmail.com"
+              },
+              "password": {
+                  "type": "string",
+                  "example": "$2b$10$c.54dFCQ0fgP7XZvYlh56OF90EIZlOpYPRmDsXk2zcM89o1NjgZWW"
+              },
+              "profile": {
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "user_id": {
+                      "type": "integer",
+                      "example": 1
+                  },
+                  "identity_type": {
+                    "type": "string",
+                    "example": "KTP"
+                  },
+                  "identity_number": {
+                    "type": "string",
+                    "example": "0777999"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Jl. Manchester No. 14"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeleteUserResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "user berhasil dihapus"
+          }
+        }
+      },
+      "ErrorUser400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "email atau identity_number sudah dipakai user lain"
+          }
+        }
+      },
+      "ErrorUser404": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "message": {
+            "type": "string",
+            "example": "tidak ada user"
+          }
+        }
+      },
+      "NewAccount": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "bank_name": {
+            "type": "string",
+            "example": "Bank A"
+          },
+          "bank_account_number": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "balance": {
+            "type": "number",
+            "example": 1000000
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "bank_name",
+          "bank_account_number",
+          "balance"
+        ]
+      },
+      "NewAccountPut": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "bank_name": {
+            "type": "string",
+            "example": "Bank B"
+          },
+          "bank_account_number": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "balance": {
+            "type": "number",
+            "example": 1000000
+          }
+        }
+      },
+      "AddAccountResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 201
+          },
+          "message": {
+            "type": "string",
+            "example": "akun berhasil ditambahkan"
+          },
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "bank_name": {
+                "type": "string",
+                "example": "Bank A"
+              },
+              "bank_account_number": {
+                "type": "string",
+                "example": "1234567890"
+              },
+              "balance": {
+                "type": "number",
+                "example": 1000000
+              }
+            }
+          }
+        }
+      },
+      "GetAccountsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "berhasil menampilkan daftar akun"
+          },
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "bank_name": {
+                "type": "string",
+                "example": "Bank A"
+              },
+              "bank_account_number": {
+                "type": "string",
+                "example": "1234567890"
+              },
+              "balance": {
+                "type": "number",
+                "example": 1000000
+              }
+            }
+          }
+        }
+      },
+      "GetAccountResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "berhasil menampilkan detail akun"
+          },
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "bank_name": {
+                "type": "string",
+                "example": "Bank A"
+              },
+              "bank_account_number": {
+                "type": "string",
+                "example": "1234567890"
+              },
+              "balance": {
+                "type": "number",
+                "example": 1000000
+              }
+            }
+          }
+        }
+      },
+      "UpdateAccountResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "akun berhasil diupdate"
+          },
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "user_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "bank_name": {
+                "type": "string",
+                "example": "Bank B"
+              },
+              "bank_account_number": {
+                "type": "string",
+                "example": "1234567890"
+              },
+              "balance": {
+                "type": "number",
+                "example": 1000000
+              }
+            }
+          }
+        }
+      },
+      "DeleteAccountResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "akun berhasil dihapus"
+          }
+        }
+      },
+      "ErrorAccount400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "nomor bank ini sudah dipakai untuk bank yang sama"
+          }
+        }
+      },
+      "ErrorAccount404": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "message": {
+            "type": "string",
+            "example": "tidak ada akun"
+          }
+        }
+      },
+      "NewTransaction": {
+        "type": "object",
+        "properties": {
+          "source_account_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "destination_account_id": {
+            "type": "integer",
+            "example": 2
+          },
+          "amount": {
+            "type": "integer",
+            "example": 200000
+          }
+        },
+        "required": [
+          "id",
+          "source_account_id",
+          "destination_account_id",
+          "amount"
+        ]
+      },
+      "AddTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 201
+          },
+          "message": {
+            "type": "string",
+            "example": "transaksi berhasil"
+          },
+          "transaction": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "source_account_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "destination_account_id": {
+                "type": "integer",
+                "example": 2
+              },
+              "amount": {
+                "type": "integer",
+                "example": 200000
+              }
+            }
+          }
+        }
+      },
+      "GetTransactionsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "berhasil mengambil data transaksi"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
                 "source_account_id": {
                   "type": "integer",
                   "example": 1
@@ -760,326 +1486,154 @@
                   "type": "integer",
                   "example": 200000
                 }
-              },
-              "required": [
-                "source_account_id",
-                "destination_account_id",
-                "amount"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Transaksi berhasil ditambahkan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 201
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Transaksi berhasil."
-                },
-                "transaction": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "source_account_id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "destination_account_id": {
-                      "type": "integer",
-                      "example": 2
-                    },
-                    "amount": {
-                      "type": "integer",
-                      "example": 200000
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal menambahkan transaksi",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal menambahkan transaksi"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
               }
             }
           }
         }
       },
-      "get": {
-        "summary": "Dapatkan daftar transaksi",
-        "operationId": "getTransactions",
-        "responses": {
-          "200": {
-            "description": "Berhasil mengambil data transaksi",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Berhasil mengambil data transaksi"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
+      "GetTransactionIdResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "berhasil menampilkan detail transaksi"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "amount": {
+                "type": "integer",
+                "example": 200000
+              },
+              "source_account": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "bank_name": {
+                    "type": "string",
+                    "example": "Bank A"
+                  },
+                  "bank_account_number": {
+                    "type": "string",
+                    "example": "1222222"
+                  },
+                  "user": {
                     "type": "object",
                     "properties": {
                       "id": {
                         "type": "integer",
                         "example": 1
                       },
-                      "source_account_id": {
-                        "type": "integer",
-                        "example": 1
+                      "name": {
+                        "type": "string",
+                        "example": "Arnold"
                       },
-                      "destination_account_id": {
+                      "email": {
+                        "type": "string",
+                        "example": "y@gmail.com"
+                      }
+                    }
+                  }
+                }
+              },
+              "destination_account": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "bank_name": {
+                    "type": "string",
+                    "example": "Bank D"
+                  },
+                  "bank_account_number": {
+                    "type": "string",
+                    "example": "15555555"
+                  },
+                  "user": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
                         "type": "integer",
                         "example": 2
                       },
-                      "amount": {
-                        "type": "integer",
-                        "example": 200000
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "id": 1,
-                      "source_account_id": 1,
-                      "destination_account_id": 2,
-                      "amount": 200000
-                    },
-                    {
-                      "id": 2,
-                      "source_account_id": 3,
-                      "destination_account_id": 4,
-                      "amount": 150000
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Tidak ada transaksi yang ditemukan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Tidak ada transaksi yang ditemukan"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Gagal mengambil data transaksi",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal mengambil data transaksi"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/transactions/{transactionId}": {
-      "get": {
-        "summary": "Dapatkan detail transaksi berdasarkan ID",
-        "operationId": "getTransactionDetail",
-        "parameters": [
-          {
-            "name": "transactionId",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "description": "ID transaksi"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Berhasil menampilkan detail transaksi",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Berhasil menampilkan detail transaksi"
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "amount": {
-                      "type": "integer",
-                      "example": 200000
-                    },
-                    "source_account": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "bank_name": {
-                          "type": "string",
-                          "example": "Bank BRI"
-                        },
-                        "bank_account_number": {
-                          "type": "string",
-                          "example": "1222222"
-                        },
-                        "user": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer",
-                              "example": 1
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "Arnold"
-                            },
-                            "email": {
-                              "type": "string",
-                              "example": "y@gmail.com"
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "destination_account": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "example": 2
-                        },
-                        "bank_name": {
-                          "type": "string",
-                          "example": "Bank Mandiri"
-                        },
-                        "bank_account_number": {
-                          "type": "string",
-                          "example": "15555555"
-                        },
-                        "user": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer",
-                              "example": 2
-                            },
-                            "name": {
-                              "type": "string",
-                              "example": "Yuki Eslintz"
-                            },
-                            "email": {
-                              "type": "string",
-                              "example": "yukicek@gmail.com"
-                            }
-                          }
-                        }
+                      "name": {
+                        "type": "string",
+                        "example": "Yuki Eslintz"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "yukicek@gmail.com"
                       }
                     }
                   }
                 }
               }
             }
+          }
+        }
+      },
+      "ErrorTransaction400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 400
           },
-          "404": {
-            "description": "Transaksi tidak ditemukan",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 404
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Transaksi tidak ditemukan"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
+          "message": {
+            "type": "string",
+            "example": "balance tidak cukup"
+          }
+        }
+      },
+      "ErrorTransactionPost404": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
           },
-          "500": {
-            "description": "Gagal mengambil detail transaksi",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 500
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Gagal mengambil detail transaksi"
-                },
-                "data": {
-                  "type": "array",
-                  "items": {}
-                }
-              }
-            }
+          "message": {
+            "type": "string",
+            "example": "akun source atau destination tidak ada"
+          }
+        }
+      },
+      "ErrorTransaction404": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "message": {
+            "type": "string",
+            "example": "transaksi tidak ada"
+          }
+        }
+      },
+      "ErrorTransaction422": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 422
+          },
+          "message": {
+            "type": "string",
+            "example": "source dan destination akun harus berbeda"
           }
         }
       }

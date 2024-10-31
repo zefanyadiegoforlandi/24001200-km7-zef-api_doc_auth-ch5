@@ -42,8 +42,8 @@ describe('User Controller Integration Tests', () => {
                 address: '789 Boulevard, City'
             })
             .then(response => {
-                expect(response.status).toBe(404);
-                expect(response.body).toHaveProperty('status', 404);
+                expect(response.status).toBe(400);
+                expect(response.body).toHaveProperty('status', 400);
                 expect(response.body).toHaveProperty('message', 'email atau identitas sudah dipakai user lain');
                 done();
             })

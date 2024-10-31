@@ -38,7 +38,7 @@ const addAccount = async (req, res) => {
 
         res.status(201).json({
             status: 201,
-            message: 'Akun berhasil ditambahkan',
+            message: 'akun berhasil ditambahkan',
             data: {
                 id: account.id,
                 user_id: account.user_id,

@@ -56,7 +56,7 @@ describe('Create Transaction Integration Tests', () => {
             .then(response => {
                 expect(response.status).toBe(201);
                 expect(response.body.status).toBe(201);
-                expect(response.body.message).toBe('Transaksi berhasil.');
+                expect(response.body.message).toBe('transaksi berhasil');
 
                 transactionId = response.body.transaction.id;
 
@@ -78,7 +78,7 @@ describe('Create Transaction Integration Tests', () => {
             .then(response => {
                 expect(response.status).toBe(422);
                 expect(response.body).toHaveProperty('status', 422);
-                expect(response.body).toHaveProperty('message', 'Source and destination accounts must be different.');
+                expect(response.body).toHaveProperty('message', 'source dan destination akun harus berbeda');
                 done();
             })
             .catch(err => done(err));
@@ -128,7 +128,7 @@ describe('Create Transaction Integration Tests', () => {
             .then((response) => {
                 expect(response.status).toBe(200);
                 expect(response.body.status).toBe(200);
-                expect(response.body.message).toBe('Berhasil mengambil data transaksi');
+                expect(response.body.message).toBe('berhasil mengambil data transaksi');
                 expect(Array.isArray(response.body.data)).toBe(true);
                 expect(response.body.data.length).toBeGreaterThan(0);
                 done();
@@ -144,7 +144,7 @@ describe('Create Transaction Integration Tests', () => {
             .then((response) => {
                 expect(response.status).toBe(200);
                 expect(response.body).toHaveProperty('status', 200);
-                expect(response.body).toHaveProperty('message', 'Berhasil menampilkan detail transaksi');
+                expect(response.body).toHaveProperty('message', 'berhasil menampilkan detail transaksi');
                 expect(response.body).toHaveProperty('data');
                 expect(response.body.data).toHaveProperty('id', transactionId);
                 expect(response.body.data).toHaveProperty('amount');
