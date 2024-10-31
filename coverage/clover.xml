@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1730367220303" clover="3.2.0">
-  <project timestamp="1730367220303" name="All files">
+<coverage generated="1730368601544" clover="3.2.0">
+  <project timestamp="1730368601544" name="All files">
     <metrics statements="244" coveredstatements="244" conditionals="81" coveredconditionals="81" methods="20" coveredmethods="20" elements="345" coveredelements="345" complexity="0" loc="244" ncloc="244" packages="5" files="11" classes="11"/>
     <package name="24001200-km7-zef-api_doc_auth-ch5">
       <metrics statements="29" coveredstatements="29" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
